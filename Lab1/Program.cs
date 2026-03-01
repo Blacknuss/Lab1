@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Net;
 
 namespace Lab1
 {
@@ -8,14 +9,22 @@ namespace Lab1
         static void Main(string[] args)
         {
             Console.WriteLine("Автор: Павлов Матвей Сергеевич");
-            Console.WriteLine("=== Генератор картинок по запросу (Версия 1) ===");
-            Console.WriteLine("Напишите ключевой тэг, чтобы найти и открыть картинку в браузере.");
-            string keyword = "https://loremflickr.com/500/500/" + Console.ReadLine();
+            Console.WriteLine("=== Генератор картинок по запросу (Версия 2) ===");
+            Console.WriteLine("Напишите ключевой тэг, чтобы скачать картинку.");
+            string tag = Console.ReadLine();
+            string url = "https://loremflickr.com/500/500/" + tag;
+            string fileName = tag + ".jpg";
             try
             {
+                // WebClient - скачиваем файл
+                using (WebClient client = new WebClient())
+                {
+                    client.DownloadFile(url, fileName);
+                } 
+                // Открываем картинку
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = keyword,
+                    FileName = fileName,
                     UseShellExecute = true
                 });
             }
